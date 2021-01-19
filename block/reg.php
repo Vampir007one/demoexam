@@ -1,10 +1,6 @@
 <?php  
     include("connect.php");
-    $login = $_POST['login'];
-    $username = $_POST['username'];
-    $email = $_POST['email'];
-    $password = $_POST['password'];
-    $confirmPassword = $_POST['confirmPassword'];
+   
     // echo "Логин: {$login} | Имя пользователя: {$username} | Мыло: {$email} | Пароль: {$password} | Подтверждение: {$confirmPassword}";
 ?>
 <div class="col2">
@@ -18,35 +14,63 @@
                 <input type="submit" value="Зарегистрироваться">
             </form>
             <?php
-                
-                if($password == $confirmPassword)
-                {
-                    // Insert into 
-                    $db->query("
-                    INSERT INTO `users`(
-                        `id`,
-                        `login`,
-                        `email`,
-                        `username`,
-                        `role`,
-                        `password`
-                    )
-                    VALUES(
-                        NULL,
-                        '$login',
-                        '$email',
-                        '$username',
-                        '0',
-                        '$password'
-                        );
-                    ");
-                    echo "Регистрация прошла успешно";
+                 $login = $_POST['login'];
+                 $username = $_POST['username'];
+                 $email = $_POST['email'];
+                 $password = $_POST['password'];
+                 $confirmPassword = $_POST['confirmPassword'];
 
-                }
-                else
+                // check fill inputs
+                if(isset($login) && isset($password) && isset($email) && isset($confirmPassword) && isset($username) )
                 {
-                    echo "Пароли не совпадают";
+                    // check on empty inputs
+                    if($login != '' && $password != '' && $email != '' && $confirmPassword != '' && $username != '')
+                    {
+                        if($password == $confirmPassword)
+                        {
+                            // check user
+                            $getDataUser = $db->query("SELECT * FROM `users` WHERE `email` = '$email' ");
+                            $dataUser = mysqli_fetch_array($getDataUser);
+                            if($dataUser['email'] == $email)
+                            {
+                                echo "Данный пользователь уже есть в системе";
+                            }
+                            else
+                            {
+                                // Insert into 
+                                $db->query("
+                                INSERT INTO `users`(
+                                    `id`,
+                                    `login`,
+                                    `email`,
+                                    `username`,
+                                    `role`,
+                                    `password`
+                                )
+                                VALUES(
+                                    NULL,
+                                    '$login',
+                                    '$email',
+                                    '$username',
+                                    '0',
+                                    '$password'
+                                    );
+                                ");
+                                echo "Регистрация прошла успешно";
+                            }
+                            
+                        }
+                        else
+                        {
+                            echo "Пароли не совпадают";
+                        }
+                    }
+                    else
+                    {
+                        echo "Заполните поля";
+                    }                   
                 }
+               
             ?>
             <div class="sideblock">
                 <ul>
