@@ -8,6 +8,7 @@
                 <a href="../registration.php">Регистрация</a>
             </form>
             <?php
+                session_start();
                 include("connect.php");
                 if(isset($_POST['email']) && isset($_POST['password']) )
                 {
