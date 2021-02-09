@@ -1,3 +1,4 @@
+
 <div class="col2">
             <h2 class="heading" >Авторизация</h2>
             <form method="post">
@@ -6,6 +7,30 @@
                 <input type="submit" value="Войти">
                 <a href="../registration.php">Регистрация</a>
             </form>
+            <?php
+                include("connect.php");
+                if(isset($_POST['email']) && isset($_POST['password']) )
+                {
+                    if($_POST['email'] != '' && $_POST['password'] != '')
+                    {
+                        $getUserData = $db->query("SELECT * FROM `users` WHERE `email` = '$_POST[email]' ");
+                        $userData = mysqli_fetch_array($getUserData);
+                        if($userData['email'] == $_POST['email'])
+                        {
+                            $password = md5($_POST['password']);
+                            if($userData['password'] == $password)
+                            {
+                                $_SESSION['id'] = $userData['id'];
+                                $_SESSION['username'] = $userData['username'];
+                                $_SESSION['role'] = $userData['role'];
+                                echo "Вход выполнен. <br> Добро пожаловать <b>$_SESSION[username]</b> <br> <a href='/'>На главную</a>";
+                            }
+                        }
+                    }
+                }
+
+
+            ?>
             <div class="sideblock">
                 <ul>
                     <li class="first"> <a href="#"><img src="images/feature_listing1.gif"  alt="" /></a> </li>

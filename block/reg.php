@@ -37,6 +37,7 @@
                             }
                             else
                             {
+                                $password = md5($password);
                                 // Insert into 
                                 $db->query("
                                 INSERT INTO `users`(
