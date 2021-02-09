@@ -8,7 +8,6 @@
                 <a href="../registration.php">Регистрация</a>
             </form>
             <?php
-                session_start();
                 include("connect.php");
                 if(isset($_POST['email']) && isset($_POST['password']) )
                 {
@@ -24,7 +23,7 @@
                                 $_SESSION['id'] = $userData['id'];
                                 $_SESSION['username'] = $userData['username'];
                                 $_SESSION['role'] = $userData['role'];
-                                echo "Вход выполнен. <br> Добро пожаловать <b>$_SESSION[username]</b> <br> <a href='/'>На главную</a>";
+                                echo "Вход выполнен. <br> Добро пожаловать <b>$_SESSION[username]</b> <br> <a href='/'>На главную</a> <br> <a href='/block/logout.php'>Выйти</a>";
                             }
                         }
                     }
